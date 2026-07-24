@@ -73,6 +73,12 @@
     },
     "ios": {
       "bundleIdentifier": "com.mezbaanapp.admin"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "65f42531-f823-41e8-a841-41834d9c6d1a"
+      }
     }
   }
 }
