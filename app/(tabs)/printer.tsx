@@ -162,7 +162,7 @@ export default function PrinterScreen() {
         {paired && (
           <View style={styles.pairedCard}>
             <View style={styles.pairedInfo}>
-              <Ionicons name="printer" size={28} color={COLORS.gold} />
+              <Ionicons name="print" size={28} color={COLORS.gold} />
               <View style={{ flex: 1, marginLeft: SPACING.md }}>
                 <Text style={styles.pairedName}>{paired.device_name}</Text>
                 <Text style={styles.pairedMac}>{paired.inner_mac_address}</Text>
@@ -219,7 +219,7 @@ export default function PrinterScreen() {
 
         {!connected && !scanning && !paired && (
           <View style={styles.noPrinterBox}>
-            <Ionicons name="printer-outline" size={48} color={COLORS.textMuted} />
+            <Ionicons name="print-outline" size={48} color={COLORS.textMuted} />
             <Text style={styles.noPrinterTxt}>No printer connected</Text>
             <Text style={styles.noPrinterSub}>Pair a Bluetooth thermal printer to enable auto-printing</Text>
           </View>
@@ -251,7 +251,7 @@ export default function PrinterScreen() {
               disabled={!!connecting}
             >
               <View style={styles.deviceInfo}>
-                <Ionicons name="printer-outline" size={24} color={COLORS.gold} />
+                <Ionicons name="print-outline" size={24} color={COLORS.gold} />
                 <View style={{ flex: 1, marginLeft: SPACING.md }}>
                   <Text style={styles.deviceName}>{device.device_name || "Unknown"}</Text>
                   <Text style={styles.deviceMac}>{device.inner_mac_address}</Text>

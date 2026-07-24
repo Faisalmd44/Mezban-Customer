@@ -27,6 +27,44 @@ export default function RootLayout() {
   const [bootDone, setBootDone] = useState(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [cart, setCart] = useState<any[]>([]);
+  const addToCart = (line: any) => {
+  setCart((prev) => {
+    const index = prev.findIndex(
+      (i) => i.item_id === line.item_id && i.variant === line.variant
+    );
+
+    if (index >= 0) {
+      const next = [...prev];
+      next[index] = {
+        ...next[index],
+        quantity: next[index].quantity + 1,
+      };
+      return next;
+    }
+
+    return [...prev, { ...line, quantity: line.quantity ?? 1 }];
+  });
+};
+
+const updateQty = (
+  item_id: string,
+  variant: string | undefined,
+  qty: number
+) => {
+  setCart((prev) =>
+    prev
+      .map((i) =>
+        i.item_id === item_id && i.variant === variant
+          ? { ...i, quantity: qty }
+          : i
+      )
+      .filter((i) => i.quantity > 0)
+  );
+};
+
+const clearCart = () => {
+  setCart([]);
+};
   const router = useRouter();
   const segments = useSegments();
 
@@ -103,7 +141,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <AppContext.Provider value={{ user, setUser, cart, addToCart: () => {}, updateQty: () => {}, clearCart: () => {}, wishlist: [], toggleWishlist: async () => {}, refreshUser, recentlyViewed: [], pushRecentlyViewed: () => {} }}>
+        <AppContext.Provider value={{ user, setUser, cart, addToCart, updateQty, clearCart, wishlist: [], toggleWishlist: async () => {}, refreshUser, recentlyViewed: [], pushRecentlyViewed: () => {} }}>
           <StatusBar style="light" />
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#0A0A0A" } }} />
         </AppContext.Provider>

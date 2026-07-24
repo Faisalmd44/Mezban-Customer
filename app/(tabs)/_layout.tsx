@@ -10,10 +10,6 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: COLORS.gold,
         tabBarInactiveTintColor: COLORS.textMuted,
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "700",
-        },
         tabBarStyle: {
           backgroundColor: COLORS.black,
           borderTopColor: COLORS.border,
@@ -44,6 +40,16 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
+         name="cart"
+          options={{
+           title: "Cart",
+            tabBarIcon: ({ color, size }) => (
+             <Ionicons name="cart" size={size} color={color} />
+           ),
+          }}
+        />
+
+      <Tabs.Screen
         name="orders"
         options={{
           title: "Orders",
@@ -65,16 +71,12 @@ export default function TabsLayout() {
 
       <Tabs.Screen
         name="notifications"
-        options={{
-          href: null,
-        }}
+        options={{ href: null }}
       />
 
       <Tabs.Screen
         name="printer"
-        options={{
-          href: null,
-        }}
+        options={{ href: null }}
       />
     </Tabs>
   );
