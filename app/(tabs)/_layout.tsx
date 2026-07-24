@@ -73,11 +73,7 @@ export default function TabsLayout() {
         name="notifications"
         options={{ href: null }}
       />
-
-      <Tabs.Screen
-        name="printer"
-        options={{ href: null }}
-      />
     </Tabs>
   );
 }
+

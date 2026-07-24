@@ -7,7 +7,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
 import { api } from "@/src/api";
-import { autoPrintNewOrder, type PrintOrderData } from "@/src/services/PrinterService";
 
 export type OrderSummary = {
   id: string;
@@ -77,7 +76,6 @@ async function pollPendingOrders() {
       await playAlarm();
       scheduleReminders(orders);
       for (const order of newOrders) {
-        autoPrintNewOrder(order as PrintOrderData).catch(() => {});
       }
     }
     notifyListeners();

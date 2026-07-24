@@ -66,7 +66,6 @@
       "./plugins/withPluginManagementRepos",
       "./plugins/withDebuggableVariants",
       "./plugins/withGradleMemoryFix",
-      "./plugins/withBluetoothPrinter"
     ],
     "experiments": {
       "tsdImports": true

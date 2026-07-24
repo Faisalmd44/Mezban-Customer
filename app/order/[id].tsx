@@ -8,7 +8,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLORS, SPACING, RADIUS, SHADOW } from "@/src/theme";
 import { api } from "@/src/api";
 import { stopAlert } from "@/src/services/AdminNotificationService";
-import { printOrder, type PrintOrderData, type PrintType } from "@/src/services/PrinterService";
 
 const STATUS_FLOW = ["received", "preparing", "packed", "out_for_delivery", "delivered"];
 const STATUS_LABEL: Record<string, string> = {
@@ -69,13 +68,6 @@ export default function OrderDetail() {
   const idx = STATUS_FLOW.indexOf(order.status);
   const next = idx >= 0 && idx < STATUS_FLOW.length - 1 ? STATUS_FLOW[idx + 1] : null;
 
-  const handleReprint = async (type: PrintType) => {
-    setActing(true);
-    try { await printOrder(order as PrintOrderData, type); }
-    catch { Alert.alert("Error", "Failed to print. Check printer connection."); }
-    finally { setActing(false); }
-  };
-
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <LinearGradient colors={[COLORS.black, COLORS.brandDark]} style={styles.header}>
@@ -105,16 +97,6 @@ export default function OrderDetail() {
           <Text style={styles.payMethod}>Payment: {order.payment_method.toUpperCase()}</Text>
         </View>
 
-        <View style={styles.printRow}>
-          <Pressable style={styles.printBtn} onPress={() => handleReprint("kot")}>
-            <Ionicons name="receipt-outline" size={18} color={COLORS.gold} />
-            <Text style={styles.printBtnTxt}>Reprint KOT</Text>
-          </Pressable>
-          <Pressable style={styles.printBtn} onPress={() => handleReprint("bill")}>
-            <Ionicons name="document-text-outline" size={18} color={COLORS.gold} />
-            <Text style={styles.printBtnTxt}>Reprint Bill</Text>
-          </Pressable>
-        </View>
       </ScrollView>
 
       <View style={[styles.actionBar, { paddingBottom: insets.bottom + 12 }]}>
