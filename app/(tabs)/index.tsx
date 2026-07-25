@@ -6,9 +6,11 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
+
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useApp } from "@/src/store";
 import { COLORS } from "@/src/theme";
 import { api } from "@/src/api";
 
@@ -21,6 +23,7 @@ import OfferBanner from "@/src/components/home/OfferBanner";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { recentlyViewed } = useApp();
   const insets = useSafeAreaInsets();
 
   const [loading, setLoading] = useState(true);
@@ -63,6 +66,11 @@ export default function HomeScreen() {
       return okCategory && okSearch;
     });
   }, [menu, category, search]);
+const bestSellers = filtered.filter((item: any) => item.is_bestseller);
+const recommended = filtered.slice(0, 6);
+const recentItems = filtered.filter((item: any) =>
+  recentlyViewed.includes(item.id)
+);
   if (loading) {
     return (
       <View
@@ -134,20 +142,63 @@ export default function HomeScreen() {
             />
           ))}
         </ScrollView>
+{recentItems.length > 0 && (
+  <>
+    <SectionTitle title="🕒 Recently Viewed" />
 
-        <SectionTitle title="Recommended For You" />
-        <View style={styles.grid}>
-          {filtered.map((item: any) => (
-            <ProductCard
-              key={`grid-${item.id}`}
-              item={item}
-              onPress={() => router.push(`/product/${item.id}`)}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </View>
-  );
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+      }}
+    >
+      {recentItems.map((item: any) => (
+        <ProductCard
+          key={`recent-${item.id}`}
+          item={item}
+          onPress={() => router.push(`/product/${item.id}`)}
+        />
+      ))}
+    </ScrollView>
+  </>
+)}
+        <SectionTitle title="🔥 Best Sellers" />
+
+<ScrollView
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  }}
+>
+  {(bestSellers.length ? bestSellers : filtered).map((item: any) => (
+    <ProductCard
+      key={`best-${item.id}`}
+      item={item}
+      onPress={() => router.push(`/product/${item.id}`)}
+    />
+  ))}
+</ScrollView>
+
+<SectionTitle title="⭐ Recommended For You" />
+
+<View style={styles.grid}>
+  {recommended.map((item: any) => (
+    <ProductCard
+      key={`rec-${item.id}`}
+      item={item}
+      onPress={() => router.push(`/product/${item.id}`)}
+    />
+  ))}
+</View>
+
+</ScrollView>
+
+</View>
+);
 }
 
 const styles = StyleSheet.create({

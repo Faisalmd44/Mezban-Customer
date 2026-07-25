@@ -93,15 +93,15 @@ export default function AdminLoginScreen() {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.kb}>
         <ScrollView contentContainerStyle={[styles.scroll, { paddingTop: insets.top + 60 }]} keyboardShouldPersistTaps="handled">
           <View style={styles.heroWrap}>
-            <View style={styles.logoRing}><Text style={styles.logoMonogram}>A</Text></View>
-            <View style={styles.badge}><Text style={styles.badgeText}>ADMIN PORTAL</Text></View>
+            <View style={styles.logoRing}><Text style={styles.logoMonogram}>M</Text></View>
+            <View style={styles.badge}><Text style={styles.badgeText}>PREMIUM FOOD DELIVERY</Text></View>
             <Text testID="brand-title" style={styles.brand}>MEZBAAN</Text>
-            <Text style={styles.brandSub}>ADMIN</Text>
+            <Text style={styles.brandSub}>RESTAURANT</Text>
           </View>
 
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>{mode === "signin" ? "Admin Sign In" : "Create Admin Account"}</Text>
-            <Text style={styles.cardSub}>{mode === "signin" ? "Sign in to manage orders and menu" : "Sign up to access the admin panel"}</Text>
+            <Text style={styles.cardTitle}>{mode === "signin" ? "Welcome Back" : "Create Account"}</Text>
+            <Text style={styles.cardSub}>{mode === "signin" ? "Sign in to continue your delicious journey" : "Create your account and start ordering"}</Text>
 
             {mode === "signup" && (
               <View style={styles.inputRow}>

@@ -9,6 +9,7 @@ import { useIconFonts } from "@/src/hooks/use-icon-fonts";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 import { AppContext, AppUser, loadCart, saveCart, loadToken, clearToken } from "@/src/store";
 import { api } from "@/src/api";
+import StickyCartBar from "@/src/components/StickyCartBar";
 import {
   initAdminNotifications,
   cleanupAdminNotifications,
@@ -27,6 +28,8 @@ export default function RootLayout() {
   const [bootDone, setBootDone] = useState(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [cart, setCart] = useState<any[]>([]);
+  const [wishlist, setWishlist] = useState<string[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
   const addToCart = (line: any) => {
   setCart((prev) => {
     const index = prev.findIndex(
@@ -133,6 +136,20 @@ const clearCart = () => {
   }, [user?.is_admin]);
 
   const refreshUser = useCallback(async () => { try { setUser(await api.me()); } catch {} }, []);
+  const toggleWishlist = useCallback(async (id: string) => {
+  setWishlist((prev) =>
+    prev.includes(id)
+      ? prev.filter((x) => x !== id)
+      : [...prev, id]
+  );
+}, []);
+
+  const pushRecentlyViewed = useCallback((id: string) => {
+  setRecentlyViewed((prev) => [
+    id,
+    ...prev.filter((x) => x !== id),
+  ].slice(0, 20));
+}, []);
   const ready = bootDone && (loaded || error);
 
   useEffect(() => { if (ready) SplashScreen.hideAsync().catch(() => {}); }, [ready]);
@@ -141,9 +158,24 @@ const clearCart = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <AppContext.Provider value={{ user, setUser, cart, addToCart, updateQty, clearCart, wishlist: [], toggleWishlist: async () => {}, refreshUser, recentlyViewed: [], pushRecentlyViewed: () => {} }}>
+        <AppContext.Provider
+  value={{
+    user,
+    setUser,
+    cart,
+    addToCart,
+    updateQty,
+    clearCart,
+    wishlist,
+    toggleWishlist,
+    refreshUser,
+    recentlyViewed,
+    pushRecentlyViewed,
+  }}
+>
           <StatusBar style="light" />
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#0A0A0A" } }} />
+         <StickyCartBar />
         </AppContext.Provider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

@@ -1,22 +1,21 @@
 {
   "expo": {
-    "name": "Mezbaan Admin",
-    "slug": "mezbaan-admin",
+    "name": "Mezbaan Customer",
+    "slug": "mezbaan-customer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mezbaan-admin",
+    "scheme": "mezbaan-customer",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "android": {
-      "package": "com.mezbaanapp.admin",
+      "package": "com.mezbaanapp.customer",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
       "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true,
       "permissions": [
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.VIBRATE",
@@ -28,10 +27,6 @@
         "android.permission.USE_FULL_SCREEN_INTENT",
         "android.permission.SCHEDULE_EXACT_ALARM",
         "android.permission.USE_EXACT_ALARM",
-        "android.permission.BLUETOOTH",
-        "android.permission.BLUETOOTH_ADMIN",
-        "android.permission.BLUETOOTH_SCAN",
-        "android.permission.BLUETOOTH_CONNECT",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
       ]
@@ -49,7 +44,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#000000"
         }
       ],
       "expo-font",
@@ -65,13 +60,10 @@
       "./plugins/withNotifeeMavenRepo",
       "./plugins/withPluginManagementRepos",
       "./plugins/withDebuggableVariants",
-      "./plugins/withGradleMemoryFix",
-    ],
-    "experiments": {
-      "tsdImports": true
-    },
-    "ios": {
-      "bundleIdentifier": "com.mezbaanapp.admin"
+      "./plugins/withGradleMemoryFix"
+      ],
+     "ios": {
+      "bundleIdentifier": "com.mezbaanapp.customer"
     },
     "extra": {
       "router": {},

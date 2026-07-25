@@ -1,18 +1,41 @@
 import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS, SPACING, RADIUS } from "@/src/theme";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS, SPACING, RADIUS, SHADOW } from "@/src/theme";
 
 export default function OfferBanner() {
   return (
     <LinearGradient
-      colors={[COLORS.gold, "#F5A623"]}
+      colors={["#D4AF37", "#B8860B", "#8C6A08"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       style={styles.banner}
     >
-      <Text style={styles.title}>🎉 Today's Special</Text>
+      <View style={styles.left}>
+        <Text style={styles.small}>LIMITED TIME</Text>
 
-      <Text style={styles.subtitle}>
-        Buy 1 Get 1 Free on selected Burgers
-      </Text>
+        <Text style={styles.title}>
+          Flat 20% OFF
+        </Text>
+
+        <Text style={styles.sub}>
+          On your first order
+        </Text>
+
+        <View style={styles.code}>
+          <Text style={styles.codeText}>
+            Use: WELCOME20
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.right}>
+        <Ionicons
+          name="gift"
+          size={64}
+          color="rgba(255,255,255,0.9)"
+        />
+      </View>
     </LinearGradient>
   );
 }
@@ -20,20 +43,55 @@ export default function OfferBanner() {
 const styles = StyleSheet.create({
   banner: {
     marginHorizontal: SPACING.lg,
-    marginTop: SPACING.md,
-    borderRadius: RADIUS.lg,
-    padding: SPACING.lg,
+    marginVertical: SPACING.lg,
+    borderRadius: RADIUS.xl,
+    padding: SPACING.xl,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    ...SHADOW.card,
+  },
+
+  left: {
+    flex: 1,
+  },
+
+  small: {
+    color: "rgba(0,0,0,0.65)",
+    fontWeight: "800",
+    letterSpacing: 2,
+    fontSize: 11,
   },
 
   title: {
     color: COLORS.black,
-    fontSize: 20,
     fontWeight: "900",
+    fontSize: 28,
+    marginTop: 8,
   },
 
-  subtitle: {
+  sub: {
     color: COLORS.black,
-    marginTop: 6,
-    fontWeight: "700",
+    fontSize: 15,
+    marginTop: 4,
+  },
+
+  code: {
+    marginTop: 14,
+    alignSelf: "flex-start",
+    backgroundColor: COLORS.black,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+
+  codeText: {
+    color: COLORS.gold,
+    fontWeight: "800",
+    fontSize: 13,
+  },
+
+  right: {
+    marginLeft: 12,
   },
 });

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SPACING, RADIUS, SHADOW } from "@/src/theme";
 import { useApp } from "@/src/store";
@@ -9,39 +10,84 @@ type Props = {
 };
 
 export default function ProductCard({ item, onPress }: Props) {
-  const { addToCart } = useApp();
+  const {
+  addToCart,
+  wishlist,
+  toggleWishlist,
+} = useApp();
+
+const liked = wishlist.includes(item.id);
 
   return (
     <Pressable style={styles.card} onPress={onPress}>
-      <View style={styles.imagePlaceholder}>
-        <Ionicons name="restaurant" size={36} color={COLORS.gold} />
-      </View>
+      <View style={styles.imageWrap}>
+        {item.image ? (
+          <Image
+            source={item.image}
+            style={styles.image}
+            contentFit="cover"
+          />
+        ) : (
+          <View style={styles.placeholder}>
+            <Ionicons
+              name="restaurant"
+              size={42}
+              color={COLORS.gold}
+            />
+          </View>
+        )}
 
-      <Text numberOfLines={1} style={styles.name}>
-        {item.name}
-      </Text>
-
-      <Text numberOfLines={2} style={styles.desc}>
-        {item.description || "Freshly prepared by Mezbaan"}
-      </Text>
-
-      <View style={styles.footer}>
-        <Text style={styles.price}>₹{item.price}</Text>
+        {!!item.is_bestseller && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>BEST SELLER</Text>
+          </View>
+        )}
 
         <Pressable
-          style={styles.addBtn}
-          onPress={() =>
-            addToCart({
-              item_id: item.id,
-              name: item.name,
-              price: item.price,
-              quantity: 1,
-              image: item.image,
-            })
-          }
-        >
-          <Ionicons name="add" size={18} color={COLORS.black} />
-        </Pressable>
+  style={styles.favBtn}
+  onPress={() => toggleWishlist(item.id)}
+>
+  <Ionicons
+    name={liked ? "heart" : "heart-outline"}
+    size={18}
+    color={liked ? "#FF4D6D" : COLORS.white}
+  />
+</Pressable>
+      </View>
+
+      <View style={styles.body}>
+        <Text numberOfLines={1} style={styles.name}>
+          {item.name}
+        </Text>
+
+        <Text numberOfLines={2} style={styles.desc}>
+          {item.description || "Freshly prepared by Mezbaan"}
+        </Text>
+
+        <View style={styles.bottom}>
+          <View>
+            <Text style={styles.price}>₹{item.price}</Text>
+          </View>
+
+          <Pressable
+            style={styles.addBtn}
+            onPress={() =>
+              addToCart({
+                item_id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: 1,
+                image: item.image,
+              })
+            }
+          >
+            <Ionicons
+              name="add"
+              size={18}
+              color={COLORS.black}
+            />
+          </Pressable>
+        </View>
       </View>
     </Pressable>
   );
@@ -49,39 +95,79 @@ export default function ProductCard({ item, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 170,
+    width: 180,
     backgroundColor: COLORS.charcoal,
     borderRadius: RADIUS.lg,
-    padding: SPACING.md,
-    marginRight: SPACING.md,
+    overflow: "hidden",
     borderWidth: 1,
     borderColor: COLORS.border,
+    marginRight: SPACING.md,
     ...SHADOW.card,
   },
 
-  imagePlaceholder: {
-    height: 120,
-    borderRadius: RADIUS.md,
+  imageWrap: {
+    height: 140,
+    position: "relative",
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+
+  placeholder: {
+    flex: 1,
     backgroundColor: COLORS.surfaceTint,
-    alignItems: "center",
     justifyContent: "center",
-    marginBottom: SPACING.md,
+    alignItems: "center",
+  },
+
+  badge: {
+    position: "absolute",
+    left: 10,
+    top: 10,
+    backgroundColor: COLORS.gold,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+
+  badgeText: {
+    color: COLORS.black,
+    fontSize: 10,
+    fontWeight: "900",
+  },
+
+  favBtn: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  body: {
+    padding: SPACING.md,
   },
 
   name: {
     color: COLORS.white,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "800",
   },
 
   desc: {
     color: COLORS.textSecondary,
+    marginTop: 6,
     fontSize: 12,
-    marginTop: 4,
     minHeight: 34,
   },
 
-  footer: {
+  bottom: {
     marginTop: SPACING.md,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -91,15 +177,15 @@ const styles = StyleSheet.create({
   price: {
     color: COLORS.gold,
     fontWeight: "900",
-    fontSize: 16,
+    fontSize: 18,
   },
 
   addBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: COLORS.gold,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
   },
 });
